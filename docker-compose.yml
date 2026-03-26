@@ -1,3 +1,16 @@
-version: '3.8'
+version: "3.8"
+
 services:
-  # Services will be added here
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
