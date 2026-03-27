@@ -8,17 +8,13 @@ services:
     plan: free
     healthCheckPath: /api/hello
 
-  # Frontend: Static Site
+  # Frontend: Docker Web Service
   - type: web
     name: frontend
-    runtime: static
+    runtime: docker
     rootDir: ./frontend
-    buildCommand: "npm install && npm run build"
-    staticPublishPath: dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
+    dockerContext: .
+    plan: free
     envVars:
       - key: VITE_API_URL
         value: https://replace-this-after-backend-deploy.onrender.com
