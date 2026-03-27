@@ -10,7 +10,7 @@ services:
 
   # Frontend: Docker Web Service
   - type: web
-    name: frontend
+    name: frontend-app
     runtime: docker
     rootDir: ./frontend
     dockerContext: .
