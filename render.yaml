@@ -1,0 +1,22 @@
+services:
+  # Backend: Docker Web Service
+  - type: web
+    name: backend
+    runtime: docker
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /api/hello
+
+  # Frontend: Static Site
+  - type: static
+    name: frontend
+    runtime: node
+    rootContext: ./frontend
+    buildCommand: "npm install && npm run build"
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: backend
+          property: url
