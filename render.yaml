@@ -8,12 +8,16 @@ services:
     healthCheckPath: /api/hello
 
   # Frontend: Static Site
-  - type: static
+  - type: web
     name: frontend
-    runtime: node
+    runtime: static
     rootContext: ./frontend
     buildCommand: "npm install && npm run build"
-    publishDir: dist
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
         fromService:
