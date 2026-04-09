@@ -213,9 +213,11 @@ function App() {
     return (
       <div className="login-layout">
         <section className="login-card">
-          <img src="/cu-logo.svg" alt="Chandigarh University" className="cu-logo" />
-          <p className="tag">Login Required</p>
-          <h1>TASKSPHERE</h1>
+          <div className="login-head">
+            <img src="/cu-logo.svg" alt="TaskSphere logo" className="cu-logo" />
+            <p className="tag">Login Required</p>
+          </div>
+          <h1>TaskSphere</h1>
           <p className="login-note">
             Enter your UID to continue. Valid UID format is 23BCS followed by 5 digits.
           </p>
@@ -253,7 +255,7 @@ function App() {
       <main className="dashboard-shell">
         <section className="hero-panel">
           <p className="tag">TaskSphere Workspace</p>
-          <h1>TASKSPHERE CONTROL CENTER</h1>
+          <h1>TaskSphere Control Center</h1>
           <p>
             Manage tasks with a live progress tracker, consistency chart, and clear complete/incomplete actions.
           </p>
