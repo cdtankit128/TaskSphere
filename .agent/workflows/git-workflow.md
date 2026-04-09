@@ -20,9 +20,7 @@ git checkout -b feature/[new-feature-name]
 ```
 
 ## 3. Pull Request (PR) Flow
-1. Commit and push your changes to your feature branch.
-2. Open a PR to merge into `main`.
-3. After merging, delete the feature branch.
+Commit and push your changes to your feature branch, open a PR to merge into `main`, and after merging, delete the feature branch.
 
 ## 4. Repository Cleanup
 Delete merged branches to keep the repo clean:
