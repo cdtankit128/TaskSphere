@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Box, Button, CircularProgress, Paper, TextField, Typography } from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { Box, Button, CircularProgress, InputAdornment, Paper, TextField, Typography } from "@mui/material";
 import { createTodo, deleteTodo, getTodos, updateTodo } from "./services/api";
 import "./App.css";
 
@@ -324,8 +325,15 @@ function App() {
               value={uidInput}
               onChange={handleUidChange}
               error={Boolean(error)}
-              helperText={error || "Format: 23BCS + 5 digits"}
+              helperText={error || "Format: 23BCS12345"}
               inputProps={{ maxLength: 10 }}
+              InputProps={{
+                endAdornment: isUidValid ? (
+                  <InputAdornment position="end">
+                    <CheckCircleIcon sx={{ color: "#22c55e" }} />
+                  </InputAdornment>
+                ) : null,
+              }}
               sx={{
                 "& .MuiInputBase-input, & .MuiFormHelperText-root": {
                   fontFamily: '"Inter", sans-serif',
@@ -349,7 +357,7 @@ function App() {
                     boxShadow: "0 0 0 2px rgba(139,92,246,0.5)",
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: "#8b5cf6",
+                    borderColor: isUidValid ? "#22c55e" : "#8b5cf6",
                   },
                 },
               }}
