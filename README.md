@@ -1,6 +1,6 @@
-# Full Stack UID To-Do Application
+# TaskSphere
 
-This repository now contains a full stack To-Do dashboard application with a UID-based login flow. The frontend is built with React and Vite, and the backend API is implemented with Vercel serverless functions under the `api/` directory.
+TaskSphere is a full stack task dashboard application with a UID-based login flow. The frontend is built with React and Vite, and the backend API is implemented with Vercel serverless functions under the `api/` directory.
 
 ## How It Works
 Users sign in by entering a UID in the dashboard and then manage personal tasks in a clean UI. The frontend sends requests to `/api/todos`, where the serverless function handles list, add, update, and delete actions.
