@@ -9,12 +9,12 @@ import {
   Typography,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
-import TaskAltRoundedIcon from "@mui/icons-material/TaskAltRounded";
-import InsightsRoundedIcon from "@mui/icons-material/InsightsRounded";
-import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { NavLink, Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import Layout from "./components/Layout";
+import Dashboard from "./pages/Dashboard";
+import Tasks from "./pages/Tasks";
+import Analytics from "./pages/Analytics";
+import Settings from "./pages/Settings";
 import { createTodo, deleteTodo, getTodos, updateTodo } from "./services/api";
 import "./App.css";
 
@@ -29,7 +29,7 @@ function toDateKey(date) {
   return date.toISOString().slice(0, 10);
 }
 
-function App() {
+function AppContent() {
   const navigate = useNavigate();
   const [uidInput, setUidInput] = useState("");
   const [uid, setUid] = useState(localStorage.getItem("todo_uid") || "");
@@ -204,7 +204,7 @@ function App() {
       localStorage.setItem("todo_uid", cleanUid);
       setUid(cleanUid);
       setError(null);
-      navigate("/dashboard", { replace: true });
+      navigate("/");
     } finally {
       setLoginLoading(false);
     }
@@ -218,7 +218,7 @@ function App() {
     setError(null);
     setEditingTodoId(null);
     setEditingText("");
-    navigate("/", { replace: true });
+    navigate("/");
   };
 
   const handleAddTask = async (e) => {
@@ -319,13 +319,6 @@ function App() {
       setLoading(false);
     }
   };
-
-  const navItems = [
-    { to: "/dashboard", label: "Dashboard", icon: <DashboardRoundedIcon fontSize="small" /> },
-    { to: "/tasks", label: "Tasks", icon: <TaskAltRoundedIcon fontSize="small" /> },
-    { to: "/analytics", label: "Analytics", icon: <InsightsRoundedIcon fontSize="small" /> },
-    { to: "/settings", label: "Settings", icon: <SettingsRoundedIcon fontSize="small" /> },
-  ];
 
   if (!uid) {
     const isUidValid = validateUID(uidInput);
@@ -469,300 +462,51 @@ function App() {
     );
   }
 
+  const appContext = {
+    uid,
+    loading,
+    newTask,
+    setNewTask,
+    filter,
+    setFilter,
+    stats,
+    visibleTodos,
+    editingTodoId,
+    editingText,
+    setEditingText,
+    consistencyData,
+    maxDailyCompletions,
+    progressPercent,
+    consistencyStreak,
+    weeklyCompleted,
+    handleAddTask,
+    handleToggle,
+    handleStartEdit,
+    handleSaveEdit,
+    handleCancelEdit,
+    handleDelete,
+    clearCompleted,
+    handleLogout,
+  };
+
   return (
-    <div className="workspace-layout">
-      <aside className="workspace-sidebar">
-        <div>
-          <div className="sidebar-brand">
-            <img src="/cu-logo.svg" alt="TaskSphere logo" className="sidebar-logo" />
-            <div>
-              <p className="sidebar-eyebrow">TaskSphere</p>
-              <h2>Workspace</h2>
-            </div>
-          </div>
+    <Routes>
+      <Route path="/" element={<Layout uid={uid} onLogout={handleLogout} appContext={appContext} error={error} />}>
+        <Route index element={<Dashboard />} />
+        <Route path="tasks" element={<Tasks />} />
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="settings" element={<Settings />} />
+      </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+}
 
-          <nav className="sidebar-nav" aria-label="Primary">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={({ isActive }) =>
-                  isActive ? "sidebar-link sidebar-link-active" : "sidebar-link"
-                }
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </NavLink>
-            ))}
-          </nav>
-        </div>
-
-        <div className="sidebar-profile">
-          <p>Signed in as</p>
-          <strong>{uid}</strong>
-          <button type="button" className="logout-btn" onClick={handleLogout}>
-            <LogoutRoundedIcon fontSize="small" />
-            Logout
-          </button>
-        </div>
-      </aside>
-
-      <main className="workspace-content">
-        {error && <p className="error-text route-error">{error}</p>}
-
-        <Routes>
-          <Route
-            path="/dashboard"
-            element={
-              <section className="page-grid">
-                <div className="surface-card page-title">
-                  <p className="tag">Overview</p>
-                  <h1>Dashboard</h1>
-                  <p>Quick snapshot of your progress, active items, and short-term consistency.</p>
-                </div>
-
-                <div className="stats-card-grid">
-                  <article className="surface-card stat-card">
-                    <span>Total Tasks</span>
-                    <strong>{stats.total}</strong>
-                  </article>
-                  <article className="surface-card stat-card">
-                    <span>Active</span>
-                    <strong>{stats.active}</strong>
-                  </article>
-                  <article className="surface-card stat-card">
-                    <span>Completed</span>
-                    <strong>{stats.completed}</strong>
-                  </article>
-                </div>
-
-                <section className="surface-card progress-card">
-                  <div className="progress-head">
-                    <h3>Completion</h3>
-                    <span>{progressPercent}%</span>
-                  </div>
-                  <div className="progress-track" aria-label="Task completion progress">
-                    <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
-                  </div>
-                  <p className="progress-meta">
-                    {stats.completed} done out of {stats.total} tasks.
-                  </p>
-                </section>
-
-                <section className="surface-card chart-card-small">
-                  <h3>Last 7 Days</h3>
-                  <div className="chart-grid" role="img" aria-label="Mini chart of completed tasks by day">
-                    {consistencyData.map((item) => {
-                      const height = Math.max(8, Math.round((item.count / maxDailyCompletions) * 100));
-                      return (
-                        <div key={item.key} className="bar-col">
-                          <span className="bar-value">{item.count}</span>
-                          <div className="bar-track compact">
-                            <div className="bar-fill" style={{ height: `${height}%` }} />
-                          </div>
-                          <span className="bar-day">{item.day}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </section>
-              </section>
-            }
-          />
-
-          <Route
-            path="/tasks"
-            element={
-              <section className="page-grid">
-                <div className="surface-card page-title">
-                  <p className="tag">Core Work Area</p>
-                  <h1>Tasks</h1>
-                  <p>Add tasks, filter quickly, edit names, and keep your list clean.</p>
-                </div>
-
-                <section className="surface-card">
-                  <form className="task-form" onSubmit={handleAddTask}>
-                    <input
-                      type="text"
-                      value={newTask}
-                      onChange={(e) => setNewTask(e.target.value)}
-                      placeholder="Add a new task"
-                      disabled={!uid || loading}
-                    />
-                    <button type="submit" disabled={!uid || loading}>
-                      Add
-                    </button>
-                  </form>
-
-                  <div className="filter-row">
-                    <button
-                      type="button"
-                      className={filter === "all" ? "active" : ""}
-                      onClick={() => setFilter("all")}
-                    >
-                      All
-                    </button>
-                    <button
-                      type="button"
-                      className={filter === "active" ? "active" : ""}
-                      onClick={() => setFilter("active")}
-                    >
-                      Active
-                    </button>
-                    <button
-                      type="button"
-                      className={filter === "completed" ? "active" : ""}
-                      onClick={() => setFilter("completed")}
-                    >
-                      Completed
-                    </button>
-                    <button type="button" className="ghost" onClick={clearCompleted} disabled={!stats.completed || loading}>
-                      Clear Completed
-                    </button>
-                  </div>
-                </section>
-
-                <section className="surface-card">
-                  <div className="todo-list">
-                    {visibleTodos.length === 0 && <p className="empty">No tasks yet. Add your first task.</p>}
-                    {visibleTodos.map((todo) => (
-                      <article key={todo.id} className={todo.completed ? "todo-item done" : "todo-item"}>
-                        <button
-                          type="button"
-                          className="tick"
-                          onClick={() => handleToggle(todo)}
-                          aria-label="Toggle complete"
-                        >
-                          {todo.completed ? "Undo" : "Done"}
-                        </button>
-
-                        <div className="todo-copy">
-                          {editingTodoId === todo.id ? (
-                            <input
-                              type="text"
-                              value={editingText}
-                              onChange={(e) => setEditingText(e.target.value)}
-                              className="task-edit-input"
-                            />
-                          ) : (
-                            <p>{todo.text}</p>
-                          )}
-
-                          <small>
-                            Created {new Date(todo.createdAt).toLocaleString()} {todo.completedAt ? `| Completed ${new Date(todo.completedAt).toLocaleString()}` : ""}
-                          </small>
-                        </div>
-
-                        <div className="task-actions">
-                          {editingTodoId === todo.id ? (
-                            <>
-                              <button type="button" className="ghost" onClick={() => handleSaveEdit(todo.id)}>
-                                Save
-                              </button>
-                              <button type="button" className="ghost" onClick={handleCancelEdit}>
-                                Cancel
-                              </button>
-                            </>
-                          ) : (
-                            <button type="button" className="ghost" onClick={() => handleStartEdit(todo)}>
-                              Edit
-                            </button>
-                          )}
-
-                          <button
-                            type="button"
-                            className="remove"
-                            onClick={() => handleDelete(todo.id)}
-                            aria-label="Delete task"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </section>
-              </section>
-            }
-          />
-
-          <Route
-            path="/analytics"
-            element={
-              <section className="page-grid">
-                <div className="surface-card page-title">
-                  <p className="tag">Insights</p>
-                  <h1>Analytics</h1>
-                  <p>Track consistency, streak quality, and weekly completion behavior.</p>
-                </div>
-
-                <div className="stats-card-grid">
-                  <article className="surface-card stat-card">
-                    <span>Current Streak</span>
-                    <strong>{consistencyStreak}d</strong>
-                  </article>
-                  <article className="surface-card stat-card">
-                    <span>Completion Rate</span>
-                    <strong>{progressPercent}%</strong>
-                  </article>
-                  <article className="surface-card stat-card">
-                    <span>Weekly Done</span>
-                    <strong>{weeklyCompleted}</strong>
-                  </article>
-                </div>
-
-                <section className="surface-card chart-card-large">
-                  <h3>Consistency Chart (Last 7 Days)</h3>
-                  <div className="chart-grid analytics" role="img" aria-label="Bar chart of completed tasks by day">
-                    {consistencyData.map((item) => {
-                      const height = Math.max(10, Math.round((item.count / maxDailyCompletions) * 100));
-                      return (
-                        <div key={item.key} className="bar-col">
-                          <span className="bar-value">{item.count}</span>
-                          <div className="bar-track tall">
-                            <div className="bar-fill" style={{ height: `${height}%` }} />
-                          </div>
-                          <span className="bar-day">{item.day}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </section>
-              </section>
-            }
-          />
-
-          <Route
-            path="/settings"
-            element={
-              <section className="page-grid">
-                <div className="surface-card page-title">
-                  <p className="tag">Profile</p>
-                  <h1>Settings</h1>
-                  <p>Manage session identity and account context.</p>
-                </div>
-
-                <section className="surface-card settings-card">
-                  <h3>Current UID</h3>
-                  <p className="settings-uid">{uid}</p>
-                  <div className="settings-actions">
-                    <button type="button" className="ghost" onClick={handleLogout}>
-                      Switch UID
-                    </button>
-                    <button type="button" className="remove" onClick={handleLogout}>
-                      Logout
-                    </button>
-                  </div>
-                </section>
-              </section>
-            }
-          />
-
-          <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
-        </Routes>
-      </main>
-    </div>
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 }
 
