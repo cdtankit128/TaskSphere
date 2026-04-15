@@ -1,12 +1,95 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TaskSphere</title>
+    <title>Productivity Dashboard - Nocturnal Luminescence</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-container": "#a70138",
+              "primary": "#ba9eff",
+              "tertiary-dim": "#e79400",
+              "on-primary": "#39008c",
+              "on-primary-fixed-variant": "#370086",
+              "on-surface-variant": "#a9abb3",
+              "on-error-container": "#ffb2b9",
+              "surface-variant": "#22262f",
+              "on-secondary-fixed-variant": "#00567c",
+              "surface-tint": "#ba9eff",
+              "secondary": "#34b5fa",
+              "on-surface": "#ecedf6",
+              "on-primary-fixed": "#000000",
+              "on-error": "#490013",
+              "secondary-container": "#006591",
+              "on-secondary-container": "#f3f8ff",
+              "secondary-dim": "#17a8ec",
+              "secondary-fixed": "#a4d8ff",
+              "on-tertiary-fixed-variant": "#563400",
+              "inverse-on-surface": "#52555c",
+              "primary-container": "#ae8dff",
+              "tertiary": "#ffb148",
+              "tertiary-fixed": "#f8a010",
+              "primary-fixed": "#ae8dff",
+              "surface-container-high": "#1c2028",
+              "on-tertiary-container": "#4a2c00",
+              "surface-dim": "#0b0e14",
+              "error": "#ff6e84",
+              "surface-container": "#161a21",
+              "outline-variant": "#45484f",
+              "inverse-surface": "#f9f9ff",
+              "tertiary-container": "#f8a010",
+              "surface": "#0b0e14",
+              "on-primary-container": "#2b006e",
+              "tertiary-fixed-dim": "#e79400",
+              "outline": "#73757d",
+              "on-tertiary": "#573500",
+              "on-secondary-fixed": "#003853",
+              "secondary-fixed-dim": "#81ccff",
+              "surface-container-highest": "#22262f",
+              "primary-fixed-dim": "#a27cff",
+              "on-secondary": "#003047",
+              "surface-container-lowest": "#000000",
+              "surface-container-low": "#10131a",
+              "primary-dim": "#8455ef",
+              "inverse-primary": "#6e3bd7",
+              "error-dim": "#d73357",
+              "surface-bright": "#282c36",
+              "on-background": "#ecedf6",
+              "background": "#0b0e14",
+              "on-tertiary-fixed": "#2a1700"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body { font-family: 'Inter', sans-serif; background-color: #0b0e14; }
+      .font-headline { font-family: 'Manrope', sans-serif; }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .glass-card {
+        background: rgba(34, 38, 47, 0.6);
+        backdrop-filter: blur(24px);
+      }
+    </style>
   </head>
-  <body>
+  <body class="text-on-surface selection:bg-primary/30">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
