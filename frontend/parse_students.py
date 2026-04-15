@@ -3,26 +3,31 @@ import json
 import os
 import re
 
+# Update this path to the correct location of your PDF
 pdf_path = r'C:\Users\91790\Desktop\MST\DESKTOP\JPEG\Student List.pdf'
-output_path = os.path.join(os.path.dirname(__file__), 'students.json')
+
+# Output now goes to public/data so it can be fetched at runtime (bypassing the build process)
+output_dir = os.path.join(os.path.dirname(__file__), 'public', 'data')
+output_path = os.path.join(output_dir, 'students.json')
 
 def clean_name_overflow(name, batch):
     if not batch:
         return name
     
     # Remove digits (2023, etc) from the batch string
-    # Also strip extra whitespace
     overflow = re.sub(r'\d+', '', batch).strip()
     
     if overflow:
-        # Merge name parts. Usually the overflow happens mid-word or immediately after,
-        # so joining without an extra space is generally more accurate for PDFs.
+        # Merge name parts. Usually the overflow happens mid-word or immediately after.
         return f"{name.strip()}{overflow}".strip()
     
     return name.strip()
 
 students = {}
 uid_pattern = re.compile(r'^23[A-Z]{3}\d{5}$')
+
+# Ensure output directory exists
+os.makedirs(output_dir, exist_ok=True)
 
 print(f"Starting extraction from {pdf_path}...")
 
@@ -33,8 +38,6 @@ with pdfplumber.open(pdf_path) as pdf:
         if not table:
             continue
         
-        # Skip header row if it exists on every page or just the first
-        # Usually headers are 'S.No.', 'UID', etc.
         for row in table:
             if not row or len(row) < 4:
                 continue
@@ -45,7 +48,6 @@ with pdfplumber.open(pdf_path) as pdf:
             
             if uid_pattern.match(uid):
                 full_name = clean_name_overflow(name, batch)
-                # Keep the first name found if duplicate UIDs (standard)
                 if uid not in students:
                     students[uid] = full_name
         
@@ -64,3 +66,4 @@ with open(output_path, 'w') as f:
     json.dump(students, f, indent=2)
 
 print(f"\nFinal dataset saved to {output_path}")
+print("IMPORTANT: This file is in the 'public/' folder and is ignored by Git to protect student privacy.")

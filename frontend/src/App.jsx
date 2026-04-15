@@ -49,14 +49,19 @@ function AppContent() {
   const validateUID = (value) => UID_REGEX.test(value);
 
   useEffect(() => {
-    // Load student data dynamically to prevent build failures if the file is ignored
+    // Load student data using fetch at runtime to completely isolate it from the build graph.
+    // This allows the build to pass in CI even when the file is ignored by Git.
     const loadStudentData = async () => {
       try {
-        const data = await import("./data/students.json");
-        setStudentsData(data.default || {});
+        const response = await fetch("/data/students.json");
+        if (response.ok) {
+          const data = await response.json();
+          setStudentsData(data || {});
+        } else {
+          console.warn("Student dataset not found at runtime.");
+        }
       } catch (err) {
-        console.warn("Student dataset not found, using empty fallback.");
-        setStudentsData({});
+        console.warn("Could not fetch student data.", err);
       }
     };
     loadStudentData();
