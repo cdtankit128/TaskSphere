@@ -15,9 +15,9 @@ function StatItem({ label, value, subLabel, icon, color }) {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center', 
-        width: 68, 
-        height: 68, 
-        borderRadius: '20px', 
+        width: 56, 
+        height: 56, 
+        borderRadius: '16px', 
         background: `rgba(${color}, 0.15)`, 
         border: `1px solid rgba(${color}, 0.3)`,
         color: `rgb(${color})`
@@ -25,11 +25,11 @@ function StatItem({ label, value, subLabel, icon, color }) {
         {icon}
       </Box>
       <Box>
-        <Typography variant="h5" fontWeight="bold" fontSize="1.4rem">
+        <Typography variant="h5" fontWeight="bold" fontSize="1.3rem">
           {animatedValue}
         </Typography>
-        <Typography variant="h6" fontWeight="bold" fontSize="0.9rem" sx={{ mt: -0.5 }}>{label}</Typography>
-        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.6)", fontSize: "0.75rem" }}>{subLabel}</Typography>
+        <Typography variant="h6" fontWeight="bold" fontSize="0.85rem" sx={{ mt: -0.5 }}>{label}</Typography>
+        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.6)", fontSize: "0.7rem", mt: -0.2 }}>{subLabel}</Typography>
       </Box>
     </Box>
   );
@@ -56,7 +56,7 @@ export default function OverviewCards({ uid = "Ankit", studentName, progressPerc
     <Paper
       elevation={0}
       sx={{
-        p: { xs: 3, sm: 4 },
+        p: { xs: 2.5, sm: 3 },
         backdropFilter: "blur(12px)",
         background: "linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
         border: "1px solid rgba(255,255,255,0.1)",
@@ -76,13 +76,13 @@ export default function OverviewCards({ uid = "Ankit", studentName, progressPerc
       <Box sx={{ position: "absolute", top: -50, right: -50, width: 250, height: 250, background: "radial-gradient(circle, rgba(139,92,246,0.35) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
       <Box sx={{ position: "absolute", bottom: -80, left: 10, width: 200, height: 200, background: "radial-gradient(circle, rgba(99,102,241,0.25) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }} />
       
-      <Grid container spacing={4} alignItems="center" position="relative" zIndex={1}>
+      <Grid container spacing={3} alignItems="center" position="relative" zIndex={1}>
         <Grid item xs={12} lg={5}>
-          <Typography variant="h4" fontWeight={700} sx={{ mb: 1.5, letterSpacing: "-0.02em" }}>
+          <Typography variant="h5" fontWeight={700} sx={{ mb: 1, letterSpacing: "-0.02em" }}>
             Welcome back, {displayName} 👋
           </Typography>
           
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, mt: 2 }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mt: 1.5 }}>
             <Chip 
               icon={<AutoAwesomeIcon sx={{ color: '#fbbf24 !important', fontSize: '1.1rem' }} />} 
               label={`Most productive on ${bestDay}s`} 
@@ -113,28 +113,28 @@ export default function OverviewCards({ uid = "Ankit", studentName, progressPerc
         </Grid>
         
         <Grid item xs={12} lg={7}>
-          <Grid container spacing={4} justifyContent={{ lg: 'flex-end' }}>
+          <Grid container spacing={3} justifyContent={{ lg: 'flex-end' }}>
             <Grid item xs={12} sm={4}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
                 <Box position="relative" display="inline-flex">
-                  <svg width="68" height="68" viewBox="0 0 68 68">
-                    <circle cx="34" cy="34" r="30" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="4.5" />
-                    <circle cx="34" cy="34" r="30" fill="none" stroke="#8b5cf6" strokeWidth="4.5" 
-                      strokeDasharray="188.5" 
-                      strokeDashoffset={188.5 - (188.5 * progressPercent) / 100} 
+                  <svg width="56" height="56" viewBox="0 0 56 56">
+                    <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="4.5" />
+                    <circle cx="28" cy="28" r="24" fill="none" stroke="#8b5cf6" strokeWidth="4.5" 
+                      strokeDasharray="150.8" 
+                      strokeDashoffset={150.8 - (150.8 * progressPercent) / 100} 
                       strokeLinecap="round" 
                       style={{ transition: 'stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1)', transform: 'rotate(-90deg)', transformOrigin: '50% 50%' }} 
                     />
                   </svg>
                   <Box sx={{ top: 0, left: 0, bottom: 0, right: 0, position: 'absolute', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Typography variant="caption" component="div" color="white" fontWeight="bold" fontSize="0.9rem">
+                    <Typography variant="caption" component="div" color="white" fontWeight="bold" fontSize="0.8rem">
                       {animatedProgress}%
                     </Typography>
                   </Box>
                 </Box>
                 <Box>
-                  <Typography variant="h6" fontWeight="bold" fontSize="1.1rem">Efficiency</Typography>
-                  <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.6)", fontSize: "0.75rem" }}>Task success</Typography>
+                  <Typography variant="h6" fontWeight="bold" fontSize="1rem">Efficiency</Typography>
+                  <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.6)", fontSize: "0.7rem", mt: -0.2 }}>Task success</Typography>
                 </Box>
               </Box>
             </Grid>

@@ -11,7 +11,7 @@ export default function ActiveTasks({ todos, onToggle }) {
     <Paper
       elevation={0}
       sx={{
-        p: 3,
+        p: 2.5,
         height: '100%',
         backdropFilter: "blur(12px)",
         background: "rgba(255,255,255,0.04)",
@@ -30,10 +30,10 @@ export default function ActiveTasks({ todos, onToggle }) {
       </Box>
 
       {activeTodos.length === 0 ? (
-        <Box sx={{ textAlign: 'center', py: 5, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <RocketLaunchIcon sx={{ fontSize: 48, color: '#fbbf24', mb: 2, opacity: 0.9 }} />
-          <Typography variant="h6" mb={1} fontWeight={600}>🚀 Start your journey!</Typography>
-          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.6)", mb: 3, maxWidth: '250px' }}>
+        <Box sx={{ textAlign: 'center', py: 3, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <RocketLaunchIcon sx={{ fontSize: 36, color: '#fbbf24', mb: 1.5, opacity: 0.9 }} />
+          <Typography variant="h6" mb={0.5} fontWeight={600}>🚀 Start your journey!</Typography>
+          <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.6)", mb: 2, maxWidth: '250px' }}>
             Add your first task and build consistency today.
           </Typography>
           <Button 

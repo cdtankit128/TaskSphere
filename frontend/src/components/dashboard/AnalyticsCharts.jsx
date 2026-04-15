@@ -59,20 +59,20 @@ export default function AnalyticsCharts({ consistencyData, stats, setFilter }) {
   const bestDayMsg = bestDayData.count > 0 ? `You performed best on ${bestDayData.day}! 🚀` : "Ready to crush some tasks? 🎯";
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={{ xs: 2, md: 2.5 }}>
       <Grid item xs={12} md={8}>
         <Paper elevation={0} sx={{ 
-          p: 3, 
+          p: 2.5, 
           borderRadius: "24px", 
           background: "rgba(255,255,255,0.04)", 
           border: "1px solid rgba(255,255,255,0.08)", 
           backdropFilter: "blur(10px)", 
           color: "#fff", 
-          height: 360,
+          height: 270,
           transition: "all 0.4s ease",
           "&:hover": { transform: "translateY(-5px)", borderColor: "rgba(255,255,255,0.15)" }
         }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
             <Box>
               <Typography variant="h6" fontWeight={600}>Weekly Progress</Typography>
               <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.5)" }}>{bestDayMsg}</Typography>
@@ -108,20 +108,20 @@ export default function AnalyticsCharts({ consistencyData, stats, setFilter }) {
       
       <Grid item xs={12} md={4}>
         <Paper elevation={0} sx={{ 
-          p: 3, 
+          p: 2.5, 
           borderRadius: "24px", 
           background: "rgba(255,255,255,0.04)", 
           border: "1px solid rgba(255,255,255,0.08)", 
           backdropFilter: "blur(10px)", 
           color: "#fff", 
-          height: 360, 
+          height: 270, 
           display: "flex", 
           flexDirection: "column",
           transition: "all 0.4s ease",
           "&:hover": { transform: "translateY(-5px)", borderColor: "rgba(255,255,255,0.15)" }
         }}>
-          <Typography variant="h6" fontWeight={600} mb={1}>Task Distribution</Typography>
-          <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.5)", mt: -0.5, mb: 1.5, display: 'block' }}>Interactive analytics • Click to filter</Typography>
+          <Typography variant="h6" fontWeight={600} mb={0.5}>Task Distribution</Typography>
+          <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.5)", display: 'block', mb: 1 }}>Interactive analytics • Click to filter</Typography>
           
           {(stats.total === 0) ? (
             <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.5 }}>
@@ -129,11 +129,11 @@ export default function AnalyticsCharts({ consistencyData, stats, setFilter }) {
             </Box>
           ) : (
             <>
-              <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <ResponsiveContainer width="100%" height={210}>
+              <Box sx={{ flexGrow: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', mt: -1 }}>
+                <ResponsiveContainer width="100%" height={160}>
                   <PieChart>
                     <Pie 
-                      data={pieData} cx="50%" cy="50%" innerRadius={70} outerRadius={95} paddingAngle={8} dataKey="value" stroke="none"
+                      data={pieData} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={8} dataKey="value" stroke="none"
                       onClick={handlePieClick}
                       style={{ outline: "none" }}
                     >

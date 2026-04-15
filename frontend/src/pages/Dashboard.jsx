@@ -27,8 +27,8 @@ export default function Dashboard() {
   }
 
   return (
-    <Box sx={{ py: { xs: 2, sm: 3 }, px: { xs: 1, sm: 2, md: 3 }, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", gap: 3, fontFamily: '"Inter", sans-serif' }}>
-      <Grid container spacing={3}>
+    <Box sx={{ py: { xs: 1.5, sm: 2 }, px: { xs: 1, sm: 2, md: 3 }, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", gap: { xs: 2, md: 2.5 }, fontFamily: '"Inter", sans-serif' }}>
+      <Grid container spacing={{ xs: 2, md: 2.5 }}>
         {/* Top Section */}
         <Grid item xs={12}>
           <OverviewCards 
