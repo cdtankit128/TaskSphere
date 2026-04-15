@@ -366,166 +366,117 @@ function AppContent() {
     const previewName = lookupStudentName(uidInput);
 
     return (
-      <div className="login-layout">
-        <Paper
-          elevation={0}
-          className="login-mui-card"
-          sx={{
-            width: "min(400px, 100%)",
-            p: { xs: 3, sm: 4 },
-            backdropFilter: "blur(12px)",
-            background: "rgba(255,255,255,0.08)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: "20px",
-            boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
-            color: "#f8fafc",
-            fontFamily: '"Poppins", "Inter", sans-serif',
-          }}
-        >
-          <Box className="login-logo-wrap">
-            <img src="/cu-logo.svg" alt="TaskSphere logo" className="cu-logo login-logo-centered" />
-          </Box>
+      <div className="font-body text-on-surface min-h-screen flex flex-col items-center justify-between overflow-x-hidden relative" style={{ backgroundColor: "#0b1326", backgroundImage: "radial-gradient(at 0% 0%, rgba(74, 86, 226, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(190, 194, 255, 0.1) 0px, transparent 50%)" }}>
+        
+        <header className="w-full max-w-7xl mx-auto px-6 py-8 flex justify-between items-center bg-transparent z-10 relative">
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined text-primary text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
+            <span className="font-headline font-bold text-lg tracking-tight text-[#bec2ff]">TaskSphere</span>
+          </div>
+          <div className="hidden md:flex gap-6 items-center">
+            <span className="material-symbols-outlined text-[#bec2ff]/70 hover:text-white transition-colors cursor-pointer" data-icon="security" style={{fontVariationSettings: "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24"}}>security</span>
+          </div>
+        </header>
 
-          <Typography
-            variant="overline"
-            sx={{
-              display: "inline-flex",
-              alignItems: "center",
-              px: 1.15,
-              py: 0.35,
-              borderRadius: "999px",
-              border: "1px solid rgba(255,255,255,0.18)",
-              background: "rgba(15,23,42,0.24)",
-              textTransform: "uppercase",
-              fontSize: "0.75rem",
-              letterSpacing: "0.125em",
-              color: "rgba(226,232,240,0.82)",
-              opacity: 0.78,
-              fontWeight: 600,
-            }}
-          >
-            Secure Login
-          </Typography>
+        <main className="flex-grow flex items-center justify-center px-4 w-full relative z-10">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+          
+          <div className="w-full max-w-md p-8 md:p-10 rounded-xl flex flex-col items-center gap-8 relative z-10" style={{ background: "rgba(45, 52, 73, 0.6)", backdropFilter: "blur(24px)", boxShadow: "0 20px 40px rgba(0, 4, 106, 0.2)", border: "1px solid rgba(143, 143, 160, 0.15)" }}>
+            
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-16 h-16 rounded-full flex items-center justify-center glow-effect" style={{ background: "linear-gradient(135deg, #bec2ff 0%, #4a56e2 100%)", boxShadow: "0 0 25px rgba(190, 194, 255, 0.3)" }}>
+                <span className="material-symbols-outlined text-on-primary-fixed text-4xl" data-icon="school" style={{ fontVariationSettings: "'FILL' 1" }}>school</span>
+              </div>
+              <div className="bg-surface-bright px-3 py-1 rounded-full border border-outline-variant/20">
+                <span className="font-label text-[10px] tracking-widest text-[#bec2ff] uppercase">SECURE LOGIN</span>
+              </div>
+              <div className="text-center">
+                <h1 className="font-headline font-extrabold text-3xl tracking-tighter text-[#bec2ff] mb-1">TaskSphere</h1>
+                <p className="font-body text-[#c6c5d7] text-sm">Enter your UID to continue</p>
+              </div>
+            </div>
 
-          <Typography variant="h4" fontWeight={700} sx={{ mt: 0.5, color: "#ffffff" }}>
-            TaskSphere
-          </Typography>
+            <form className="w-full flex flex-col gap-6" onSubmit={handleLogin}>
+              <div className="flex flex-col gap-2">
+                <label className="font-label text-xs tracking-wider text-[#c6c5d7] uppercase px-1" htmlFor="uid">University UID</label>
+                <div className="relative group">
+                  <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                    <span className="material-symbols-outlined text-[#8f8fa0] text-xl group-focus-within:text-[#bec2ff] transition-colors">badge</span>
+                  </div>
+                  <input 
+                    className="w-full bg-[#2d3449] border-[#454654]/20 border text-[#dae2fd] pl-12 pr-4 py-4 rounded-lg focus:ring-2 focus:ring-[#bec2ff]/30 focus:border-[#bec2ff]/50 transition-all placeholder:text-[#8f8fa0]/50 font-label tracking-tight focus:outline-none" 
+                    id="uid" 
+                    placeholder="23BCS12345" 
+                    type="text" 
+                    value={uidInput}
+                    onChange={handleUidChange}
+                    maxLength={11}
+                  />
+                  {isUidValid && (
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                      <span className="material-symbols-outlined text-[#22c55e] text-xl">check_circle</span>
+                    </div>
+                  )}
+                </div>
+                <p className={`text-[10px] font-body px-1 ${error ? "text-[#ffb4ab]" : "text-[#8f8fa0]"}`}>{error || "Format: 23BCS12345 / 23BET12345"}</p>
+              </div>
+              
+              {previewName && (
+                <div className="p-3 rounded-lg flex items-center gap-3" style={{ background: "rgba(34, 197, 94, 0.12)", border: "1px solid rgba(34, 197, 94, 0.3)" }}>
+                  <span className="material-symbols-outlined text-[#22c55e]">person</span>
+                  <span className="text-sm font-body font-semibold text-[#4ade80]">{previewName}</span>
+                </div>
+              )}
 
-          <Typography variant="body2" sx={{ mt: 1, color: "rgba(226,232,240,0.82)" }}>
-            Enter your UID to continue
-          </Typography>
-
-          <Box component="form" onSubmit={handleLogin} noValidate sx={{ mt: 3 }}>
-            <Typography
-              variant="body2"
-              sx={{
-                mb: 0.85,
-                fontWeight: 600,
-                color: "rgba(241,245,249,0.9)",
-              }}
-            >
-              University UID
-            </Typography>
-
-            <TextField
-              fullWidth
-              variant="outlined"
-              placeholder="23BCS12345"
-              value={uidInput}
-              onChange={handleUidChange}
-              error={Boolean(error)}
-              helperText={error || "Format: 23BCS12345 / 23BET12345"}
-              inputProps={{ maxLength: 11 }}
-              InputProps={{
-                endAdornment: isUidValid ? (
-                  <InputAdornment position="end">
-                    <CheckCircleIcon sx={{ color: "#22c55e" }} />
-                  </InputAdornment>
-                ) : null,
-              }}
-              sx={{
-                "& .MuiInputBase-input, & .MuiFormHelperText-root": {
-                  fontFamily: '"Inter", sans-serif',
-                },
-                "& .MuiFormHelperText-root": {
-                  mt: 1,
-                  color: error ? "#fca5a5" : "rgba(255,255,255,0.6)",
-                  fontSize: "13px",
-                },
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "12px",
-                  backgroundColor: "rgba(15,23,42,0.35)",
-                  boxShadow: "none",
-                  "& fieldset": {
-                    borderColor: "rgba(255,255,255,0.2)",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "rgba(255,255,255,0.24)",
-                  },
-                  "&.Mui-focused": {
-                    boxShadow: "0 0 0 2px rgba(139,92,246,0.5)",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: isUidValid ? "#22c55e" : "#8b5cf6",
-                  },
-                },
-              }}
-            />
-
-            {/* Live name preview */}
-            {previewName && (
-              <Box
-                sx={{
-                  mt: 2,
-                  p: 1.5,
-                  borderRadius: "12px",
-                  background: "rgba(34, 197, 94, 0.12)",
-                  border: "1px solid rgba(34, 197, 94, 0.3)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1.5,
-                  animation: "fadeIn 0.3s ease",
-                }}
+              <button 
+                type="submit" 
+                disabled={!isUidValid || loginLoading}
+                className="w-full py-4 rounded-full font-headline font-bold text-[#00046a] flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all glow-effect group cursor-pointer"
+                style={{ background: "linear-gradient(135deg, #bec2ff 0%, #4a56e2 100%)", boxShadow: "0 0 25px rgba(190, 194, 255, 0.3)", opacity: (!isUidValid || loginLoading) ? 0.6 : 1 }}
               >
-                <PersonIcon sx={{ color: "#22c55e", fontSize: "1.3rem" }} />
-                <Typography variant="body2" sx={{ color: "#4ade80", fontWeight: 600 }}>
-                  {previewName}
-                </Typography>
-              </Box>
-            )}
+                {loginLoading ? <CircularProgress size={22} sx={{ color: "#000ba6" }} /> : "Continue"}
+                {!loginLoading && <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>}
+              </button>
+            </form>
 
-            <Button
-              fullWidth
-              variant="contained"
-              size="large"
-              type="submit"
-              disabled={!isUidValid || loginLoading}
-              sx={{
-                mt: 3,
-                borderRadius: "12px",
-                textTransform: "none",
-                fontWeight: 600,
-                fontFamily: '"Poppins", "Inter", sans-serif',
-                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                boxShadow: "0 12px 26px rgba(99,102,241,0.35)",
-                "&:hover": {
-                  filter: "brightness(1.08)",
-                  boxShadow: "0 14px 30px rgba(99,102,241,0.42)",
-                },
-                "&:disabled": {
-                  background: "rgba(100, 116, 139, 0.55)",
-                  color: "rgba(241, 245, 249, 0.82)",
-                },
-              }}
-            >
-              {loginLoading ? <CircularProgress size={22} sx={{ color: "#fff" }} /> : "Continue ->"}
-            </Button>
-          </Box>
-        </Paper>
+            <div className="flex flex-col items-center gap-4 w-full">
+              <div className="flex items-center gap-4 w-full">
+                <div className="h-[1px] flex-grow bg-[#454654]/50"></div>
+                <span className="text-[10px] font-label text-[#8f8fa0] uppercase tracking-widest">Other Options</span>
+                <div className="h-[1px] flex-grow bg-[#454654]/50"></div>
+              </div>
+              <div className="flex gap-4 w-full">
+                <button className="flex-1 py-3 px-4 bg-[#222a3d] rounded-lg border border-[#454654]/30 text-xs font-medium text-[#dae2fd] flex items-center justify-center gap-2 hover:bg-[#31394d] transition-colors" type="button">
+                  <span className="material-symbols-outlined text-lg">vpn_key</span>
+                  SSO
+                </button>
+                <button className="flex-1 py-3 px-4 bg-[#222a3d] rounded-lg border border-[#454654]/30 text-xs font-medium text-[#dae2fd] flex items-center justify-center gap-2 hover:bg-[#31394d] transition-colors" type="button">
+                  <span className="material-symbols-outlined text-lg">support_agent</span>
+                  Help
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <footer className="w-full py-8 px-4 flex flex-col items-center gap-4 bg-transparent mt-auto z-10 relative">
+          <div className="flex gap-6 items-center">
+            <a className="font-label text-xs uppercase tracking-widest text-[#8f8fa0] hover:text-[#bec2ff] transition-colors" href="#">Privacy Policy</a>
+            <a className="font-label text-xs uppercase tracking-widest text-[#8f8fa0] hover:text-[#bec2ff] transition-colors" href="#">Terms of Service</a>
+            <a className="font-label text-xs uppercase tracking-widest text-[#8f8fa0] hover:text-[#bec2ff] transition-colors" href="#">Security Center</a>
+          </div>
+          <p className="font-label text-[10px] tracking-widest text-[#8f8fa0] uppercase opacity-60">© 2024 TaskSphere Academic Systems. All Rights Reserved.</p>
+        </footer>
+
+        <div className="fixed top-20 right-[-100px] w-[400px] h-[400px] opacity-20 pointer-events-none hidden lg:block z-0">
+            <img className="w-full h-full object-cover rounded-full mix-blend-screen" alt="circuit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtVTLgFrQbDdyZXZQt-YKDI3aLw5c-q99Cx3QSuKMj_6bJSz4W0CSKTcfaUMNiMBr3nabCkfCFuiJ_4h3KOZS-4mX2YuYiHaJ0mfTrHQ7bAEraSSbUDQKK7IUxhOQ7yAtwoNQMw_2hPPbJHWxU1EBwKLYwbbkYgaplcfJEoaVHy8jF2O7kK1tkeFVfS5gsjTMmLOxkd5akeHNfjUyjABMfAqqOCAayZL-Y5N2FFYqeIJVtc8f5oh0TXhEODXg1fn6FB54--qmB-khR" />
+        </div>
+        <div className="fixed bottom-20 left-[-100px] w-[350px] h-[350px] opacity-20 pointer-events-none hidden lg:block z-0">
+            <img className="w-full h-full object-cover rounded-full mix-blend-screen" alt="nebula" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEndzltbXB0WOT2Vpv_w4tCpMm_lLzZgR8mjIgHAnHjGvqKF-c3N9q3bzP6MfrXKWoTuFr7yEPPTpr5Q-g2FIesWmuUd1Vf4Z_tpQ0LGFLjPqjlaQFUZMZQefNRC6me-qJT23kJy1Oie0yZcKzFGfLQAFTd8G614m4IpBBscpYMR3jrrg7IzePjpH5SEoyb661jxgOQ_nvtQbK2ZBPq4yvZBveyEC_x_t_G5OLTHDzxTthD1JIZdFYq3gtY5nT0kIdAeVNXjhYqPqO" />
+        </div>
       </div>
     );
   }
-
   const appContext = {
     uid,
     studentName,
