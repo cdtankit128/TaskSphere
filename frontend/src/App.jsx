@@ -35,6 +35,8 @@ function AppContent() {
   const [uid, setUid] = useState(localStorage.getItem("todo_uid") || "");
   const [todos, setTodos] = useState([]);
   const [newTask, setNewTask] = useState("");
+  const [priority, setPriority] = useState("Medium");
+  const [dueDate, setDueDate] = useState(null);
   const [filter, setFilter] = useState("all");
   const [loading, setLoading] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
@@ -232,9 +234,11 @@ function AppContent() {
     setError(null);
 
     try {
-      const data = await createTodo(uid, task);
+      const data = await createTodo(uid, task, priority, dueDate);
       setTodos(data.todos || []);
       setNewTask("");
+      setPriority("Medium");
+      setDueDate(null);
     } catch {
       setError("Could not add task.");
     } finally {
@@ -479,6 +483,10 @@ function AppContent() {
     progressPercent,
     consistencyStreak,
     weeklyCompleted,
+    priority,
+    setPriority,
+    dueDate,
+    setDueDate,
     handleAddTask,
     handleToggle,
     handleStartEdit,

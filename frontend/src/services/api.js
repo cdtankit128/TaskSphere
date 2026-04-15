@@ -21,10 +21,10 @@ export function getTodos(uid) {
   return request(`/api/todos?uid=${encodeURIComponent(uid)}`);
 }
 
-export function createTodo(uid, text) {
+export function createTodo(uid, text, priority = "Medium", dueDate = null) {
   return request("/api/todos", {
     method: "POST",
-    body: JSON.stringify({ uid, text }),
+    body: JSON.stringify({ uid, text, priority, dueDate }),
   });
 }
 

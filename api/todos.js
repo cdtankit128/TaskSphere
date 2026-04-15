@@ -56,6 +56,8 @@ module.exports = (req, res) => {
       id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
       text,
       completed: false,
+      priority: body.priority || "Medium",
+      dueDate: body.dueDate || null,
       createdAt: new Date().toISOString(),
     };
 
@@ -78,9 +80,12 @@ module.exports = (req, res) => {
 
     const hasCompleted = typeof body.completed === "boolean";
     const hasText = Object.prototype.hasOwnProperty.call(body, "text");
+    const hasPriority = Object.prototype.hasOwnProperty.call(body, "priority");
+    const hasDueDate = Object.prototype.hasOwnProperty.call(body, "dueDate");
+    
     const nextText = hasText ? String(body.text || "").trim() : "";
 
-    if (!hasCompleted && !hasText) {
+    if (!hasCompleted && !hasText && !hasPriority && !hasDueDate) {
       return send(res, 400, { error: "No valid updates provided" });
     }
 
@@ -97,6 +102,14 @@ module.exports = (req, res) => {
 
     if (hasText) {
       updated.text = nextText;
+    }
+
+    if (hasPriority) {
+      updated.priority = body.priority;
+    }
+
+    if (hasDueDate) {
+      updated.dueDate = body.dueDate;
     }
 
     todos[idx] = updated;
