@@ -438,24 +438,6 @@ function AppContent() {
                 {!loginLoading && <span className="material-symbols-outlined text-xl group-hover:translate-x-1 transition-transform">arrow_forward</span>}
               </button>
             </form>
-
-            <div className="flex flex-col items-center gap-4 w-full">
-              <div className="flex items-center gap-4 w-full">
-                <div className="h-[1px] flex-grow bg-[#454654]/50"></div>
-                <span className="text-[10px] font-label text-[#8f8fa0] uppercase tracking-widest">Other Options</span>
-                <div className="h-[1px] flex-grow bg-[#454654]/50"></div>
-              </div>
-              <div className="flex gap-4 w-full">
-                <button className="flex-1 py-3 px-4 bg-[#222a3d] rounded-lg border border-[#454654]/30 text-xs font-medium text-[#dae2fd] flex items-center justify-center gap-2 hover:bg-[#31394d] transition-colors" type="button">
-                  <span className="material-symbols-outlined text-lg">vpn_key</span>
-                  SSO
-                </button>
-                <button className="flex-1 py-3 px-4 bg-[#222a3d] rounded-lg border border-[#454654]/30 text-xs font-medium text-[#dae2fd] flex items-center justify-center gap-2 hover:bg-[#31394d] transition-colors" type="button">
-                  <span className="material-symbols-outlined text-lg">support_agent</span>
-                  Help
-                </button>
-              </div>
-            </div>
           </div>
         </main>
 
