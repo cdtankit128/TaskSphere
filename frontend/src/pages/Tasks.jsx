@@ -162,15 +162,21 @@ export default function Tasks() {
                         textField: { 
                           variant: 'standard', 
                           size: 'small',
+                          sx: {
+                            input: { 
+                              color: '#ffffff',
+                              WebkitTextFillColor: '#ffffff'
+                            },
+                            '& .MuiInputBase-input::placeholder': { 
+                              color: 'rgba(255,255,255,0.4)', 
+                              opacity: 1 
+                            },
+                            '& .MuiSvgIcon-root': { color: 'rgba(255,255,255,0.6)' }
+                          },
                           InputProps: { 
                             disableUnderline: true,
                             sx: { 
-                              fontSize: '0.9rem',
-                              '& .MuiInputBase-input': { 
-                                color: '#ffffff',
-                                '&::placeholder': { color: 'rgba(255,255,255,0.4)', opacity: 1 }
-                              },
-                              '& .MuiSvgIcon-root': { color: 'rgba(255,255,255,0.6)' }
+                              fontSize: '0.9rem'
                             }
                           }
                         } 
