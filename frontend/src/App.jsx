@@ -19,7 +19,7 @@ import Settings from "./pages/Settings";
 import { createTodo, deleteTodo, getTodos, updateTodo } from "./services/api";
 import "./App.css";
 
-const UID_REGEX = /^23[A-Z]{3}\d{5}$/;
+const UID_REGEX = /^23[A-Z]{3,4}\d{4,5}$/;
 
 function formatDayLabel(isoDate) {
   return new Date(isoDate).toLocaleDateString("en-US", { weekday: "short" });
@@ -84,11 +84,11 @@ function AppContent() {
     if (prefixMatch && prefixMatch[1].length >= 4) {
       const prefix = prefixMatch[1].slice(0, 5);
       const digits = uppercase.slice(prefix.length).replace(/\D/g, "");
-      return `${prefix}${digits}`.slice(0, 10);
+      return `${prefix}${digits}`.slice(0, 11);
     }
 
     // Default: let the user type freely
-    return uppercase.slice(0, 10);
+    return uppercase.slice(0, 11);
   };
 
   const getUidError = (value) => {
@@ -96,7 +96,7 @@ function AppContent() {
       return "";
     }
 
-    return "Invalid UID format (23BCS + 5 digits).";
+    return "Invalid UID format. Must match 23 + letters + digits.";
   };
 
   const loadTodos = async (activeUid) => {
@@ -435,7 +435,7 @@ function AppContent() {
               onChange={handleUidChange}
               error={Boolean(error)}
               helperText={error || "Format: 23BCS12345 / 23BET12345"}
-              inputProps={{ maxLength: 10 }}
+              inputProps={{ maxLength: 11 }}
               InputProps={{
                 endAdornment: isUidValid ? (
                   <InputAdornment position="end">
