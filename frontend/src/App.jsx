@@ -17,7 +17,6 @@ import Tasks from "./pages/Tasks";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
 import { createTodo, deleteTodo, getTodos, updateTodo } from "./services/api";
-import studentsData from "./data/students.json";
 import "./App.css";
 
 const UID_REGEX = /^23[A-Z]{3}\d{5}$/;
@@ -35,6 +34,7 @@ function AppContent() {
   const [uidInput, setUidInput] = useState("");
   const [uid, setUid] = useState(localStorage.getItem("todo_uid") || "");
   const [studentName, setStudentName] = useState(localStorage.getItem("todo_student_name") || "");
+  const [studentsData, setStudentsData] = useState({});
   const [todos, setTodos] = useState([]);
   const [newTask, setNewTask] = useState("");
   const [priority, setPriority] = useState("Medium");
@@ -47,6 +47,20 @@ function AppContent() {
   const [editingText, setEditingText] = useState("");
 
   const validateUID = (value) => UID_REGEX.test(value);
+
+  useEffect(() => {
+    // Load student data dynamically to prevent build failures if the file is ignored
+    const loadStudentData = async () => {
+      try {
+        const data = await import("./data/students.json");
+        setStudentsData(data.default || {});
+      } catch (err) {
+        console.warn("Student dataset not found, using empty fallback.");
+        setStudentsData({});
+      }
+    };
+    loadStudentData();
+  }, []);
 
   const lookupStudentName = (uidValue) => {
     if (!uidValue || !validateUID(uidValue)) return "";
