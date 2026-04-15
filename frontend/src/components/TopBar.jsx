@@ -17,7 +17,7 @@ export default function TopBar({ studentName }) {
         <button className="text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:opacity-80">
           <span className="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
         </button>
-        <div className="flex items-center gap-3 ml-4">
+        <div className="flex items-center gap-3 ml-4 cursor-pointer hover:opacity-80 transition-opacity">
           <div className="text-right hidden sm:block">
             <p className="text-xs font-bold text-on-surface">{firstName}</p>
             <p className="text-[10px] text-on-surface-variant">Pro Plan</p>
