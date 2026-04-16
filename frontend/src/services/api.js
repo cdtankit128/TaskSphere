@@ -21,6 +21,10 @@ export function getTodos(uid) {
   return request(`/api/todos?uid=${encodeURIComponent(uid)}`);
 }
 
+export function getStudents() {
+  return request("/api/students");
+}
+
 export function createTodo(uid, text, priority = "Medium", dueDate = null) {
   return request("/api/todos", {
     method: "POST",

@@ -16,7 +16,7 @@ import Dashboard from "./pages/Dashboard";
 import Tasks from "./pages/Tasks";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
-import { createTodo, deleteTodo, getTodos, updateTodo } from "./services/api";
+import { createTodo, deleteTodo, getTodos, updateTodo, getStudents } from "./services/api";
 import "./App.css";
 
 const UID_REGEX = /^23[A-Z]{3,4}\d{4,5}$/;
@@ -52,13 +52,8 @@ function AppContent() {
     // Load student data using fetch at runtime from our Supabase backend
     const loadStudentData = async () => {
       try {
-        const response = await fetch("/api/students");
-        if (response.ok) {
-          const data = await response.json();
-          setStudentsData(data || {});
-        } else {
-          console.warn("Failed to fetch students from API.");
-        }
+        const data = await getStudents();
+        setStudentsData(data || {});
       } catch (err) {
         console.warn("Could not fetch student data.", err);
       }
