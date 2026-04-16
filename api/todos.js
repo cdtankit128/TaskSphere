@@ -1,6 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
 
-// Load environment variables (Vercel provides these automatically)
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY; 
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -28,9 +27,6 @@ module.exports = async (req, res) => {
   if (!uid) {
     return send(res, 400, { error: "UID is required" });
   }
-
-  // Note: DDL (`CREATE TABLE IF NOT EXISTS`) is not supported over REST. 
-  // You must create the `todos` and `students` table via Supabase Dashboard.
 
   try {
     if (req.method === "GET") {

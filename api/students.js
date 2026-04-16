@@ -1,6 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
 
-// Load environment variables
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -11,12 +10,11 @@ function send(res, status, payload) {
 
 module.exports = async (req, res) => {
   try {
-    // GET: Fetch all students
     if (req.method === "GET") {
       const { data, error } = await supabase.from('students').select('uid, name');
       
       if (error) {
-        if (error.code === 'PGRST205') return send(res, 200, {}); // Table doesn't exist yet
+        if (error.code === 'PGRST205') return send(res, 200, {});
         throw error;
       }
       
