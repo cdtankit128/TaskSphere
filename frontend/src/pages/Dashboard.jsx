@@ -18,13 +18,13 @@ export default function Dashboard() {
       {/* Welcome Section (Hero Bento Row) */}
       <section className="grid grid-cols-1 md:grid-cols-12 gap-6">
         <div className="md:col-span-8 space-y-2">
-          <h2 className="text-4xl font-extrabold font-headline tracking-tight text-on-surface">Welcome back, {studentName ? studentName.split(' ')[0] : 'Ankit'}!</h2>
-          <p className="text-on-surface-variant text-lg max-w-xl leading-relaxed">Your productivity is soaring this week. You've completed {progressPercent || 85}% of your targets so far.</p>
+          <h2 className="text-4xl font-extrabold font-headline tracking-tight text-on-surface">Welcome back, {studentName ? studentName.split(' ')[0] : 'Student'}!</h2>
+          <p className="text-on-surface-variant text-lg max-w-xl leading-relaxed">Your productivity is soaring this week. You've completed {progressPercent || 0}% of your targets so far.</p>
         </div>
         <div className="md:col-span-4 flex justify-end items-center">
           <div className="text-right">
-            <span className="text-xs font-bold text-secondary uppercase tracking-widest bg-secondary/10 px-3 py-1 rounded-full">New Achievement</span>
-            <p className="mt-2 font-headline font-bold text-on-surface">Consistent {consistencyStreak || 7}-Day Streak!</p>
+            <span className="text-xs font-bold text-secondary uppercase tracking-widest bg-secondary/10 px-3 py-1 rounded-full">Current Streak</span>
+            <p className="mt-2 font-headline font-bold text-on-surface">{consistencyStreak || 0}-Day Streak!</p>
           </div>
         </div>
       </section>
@@ -36,19 +36,19 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-on-surface-variant text-sm font-medium mb-1">Efficiency</p>
-              <h3 className="text-3xl font-extrabold font-headline leading-tight">{progressPercent || 92}<span className="text-primary">%</span></h3>
+              <h3 className="text-3xl font-extrabold font-headline leading-tight">{progressPercent || 0}<span className="text-primary">%</span></h3>
             </div>
             <div className="relative w-16 h-16">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 64 64">
                 <circle className="text-surface-variant" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" strokeWidth="6"></circle>
-                <circle className="text-primary" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" strokeDasharray="175.9" strokeDashoffset={175.9 - (175.9 * (progressPercent || 92) / 100)} strokeWidth="6"></circle>
+                <circle className="text-primary" cx="32" cy="32" fill="transparent" r="28" stroke="currentColor" strokeDasharray="175.9" strokeDashoffset={175.9 - (175.9 * (progressPercent || 0) / 100)} strokeWidth="6"></circle>
               </svg>
               <span className="material-symbols-outlined absolute inset-0 flex items-center justify-center text-primary text-xl" data-icon="bolt">bolt</span>
             </div>
           </div>
           <div className="mt-4 flex items-center gap-2 text-xs text-secondary font-bold">
             <span className="material-symbols-outlined text-sm" data-icon="trending_up">trending_up</span>
-            +5% from yesterday
+            Keep pushing forward!
           </div>
         </div>
 
@@ -57,15 +57,24 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-on-surface-variant text-sm font-medium mb-1">Active Tasks</p>
-              <h3 className="text-3xl font-extrabold font-headline leading-tight">{stats?.pending || 12}</h3>
+              <h3 className="text-3xl font-extrabold font-headline leading-tight">{stats?.active || 0}</h3>
             </div>
             <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center">
               <span className="material-symbols-outlined text-secondary" data-icon="checklist">checklist</span>
             </div>
           </div>
           <div className="mt-4 flex items-center gap-2 text-xs text-on-surface-variant font-medium">
-            <span className="w-2 h-2 bg-error rounded-full"></span>
-            {stats?.overdue || 3} Tasks due soon
+            {(stats?.active || 0) > 0 ? (
+              <>
+                <span className="w-2 h-2 bg-error rounded-full"></span>
+                Focus on completing them
+              </>
+            ) : (
+               <>
+                <span className="w-2 h-2 bg-success rounded-full"></span>
+                All caught up!
+              </>
+            )}
           </div>
         </div>
 
@@ -74,14 +83,14 @@ export default function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-on-surface-variant text-sm font-medium mb-1">Daily Streak</p>
-              <h3 className="text-3xl font-extrabold font-headline leading-tight">{consistencyStreak || 24}<span className="text-tertiary"> days</span></h3>
+              <h3 className="text-3xl font-extrabold font-headline leading-tight">{consistencyStreak || 0}<span className="text-tertiary"> days</span></h3>
             </div>
             <div className="w-12 h-12 bg-tertiary/10 rounded-xl flex items-center justify-center">
               <span className="material-symbols-outlined text-tertiary" data-icon="local_fire_department">local_fire_department</span>
             </div>
           </div>
           <div className="mt-4 flex items-center gap-2 text-xs text-on-surface-variant font-medium">
-            Personal best: 28 days
+            Current login streak
           </div>
         </div>
       </section>
@@ -223,7 +232,7 @@ export default function Dashboard() {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-xs font-bold text-on-surface-variant">Total</span>
-                <span className="text-xl font-extrabold text-on-surface">{stats?.total || 42}</span>
+                <span className="text-xl font-extrabold text-on-surface">{stats?.total || 0}</span>
               </div>
             </div>
 
@@ -231,30 +240,20 @@ export default function Dashboard() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-primary"></span>
-                  <span className="text-sm font-medium text-on-surface-variant">Strategic</span>
+                  <span className="text-sm font-medium text-on-surface-variant">Active</span>
                 </div>
-                <span className="text-sm font-bold">40%</span>
+                <span className="text-sm font-bold">
+                  {stats?.total ? Math.round((stats.active / stats.total) * 100) : 0}%
+                </span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 rounded-full bg-secondary"></span>
-                  <span className="text-sm font-medium text-on-surface-variant">Operational</span>
+                  <span className="text-sm font-medium text-on-surface-variant">Completed</span>
                 </div>
-                <span className="text-sm font-bold">25%</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-tertiary"></span>
-                  <span className="text-sm font-medium text-on-surface-variant">Personal</span>
-                </div>
-                <span className="text-sm font-bold">15%</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-surface-variant"></span>
-                  <span className="text-sm font-medium text-on-surface-variant">Learning</span>
-                </div>
-                <span className="text-sm font-bold">20%</span>
+                <span className="text-sm font-bold">
+                  {stats?.total ? Math.round((stats.completed / stats.total) * 100) : 0}%
+                </span>
               </div>
             </div>
           </div>

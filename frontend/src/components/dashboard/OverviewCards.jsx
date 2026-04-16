@@ -35,15 +35,15 @@ function StatItem({ label, value, subLabel, icon, color }) {
   );
 }
 
-export default function OverviewCards({ uid = "Ankit", studentName, progressPercent, stats, consistencyStreak, consistencyData }) {
+export default function OverviewCards({ uid = "", studentName, progressPercent, stats, consistencyStreak, consistencyData }) {
   // Format name: "SUMIT KUMAR" -> "Sumit"
   const formatName = (name) => {
     if (!name) return null;
     const firstName = name.split(" ")[0];
     return firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
   };
-  const displayName = formatName(studentName) || uid || "Ankit";
-  const animatedProgress = useCountUp(progressPercent);
+  const displayName = formatName(studentName) || uid || "Student";
+  const animatedProgress = useCountUp(progressPercent || 0);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 6, mb: 1 }}>
@@ -61,7 +61,7 @@ export default function OverviewCards({ uid = "Ankit", studentName, progressPerc
             NEW ACHIEVEMENT
           </Typography>
           <Typography variant="body1" sx={{ color: "#fff", fontWeight: 700, mt: 1 }}>
-            Consistent {consistencyStreak || 7}-Day Streak!
+            Consistent {consistencyStreak}-Day Streak!
           </Typography>
         </Box>
       </Box>
@@ -74,7 +74,7 @@ export default function OverviewCards({ uid = "Ankit", studentName, progressPerc
               <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", mb: 0.5, fontSize: "0.85rem" }}>Efficiency</Typography>
               <Typography variant="h3" fontWeight={700} sx={{ color: "#fff", mb: 1 }}>{animatedProgress}%</Typography>
               <Typography variant="caption" sx={{ color: "#38bdf8", fontWeight: 600, display: 'flex', alignItems: 'center', gap: 0.5, fontSize: "0.75rem" }}>
-                <Box component="span" sx={{ fontSize: '1.2rem', lineHeight: 1 }}>↗</Box> +5% from yesterday
+                Keep pushing forward!
               </Typography>
             </Box>
             <Box position="relative" display="inline-flex">
@@ -99,10 +99,19 @@ export default function OverviewCards({ uid = "Ankit", studentName, progressPerc
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 1 }}>
             <Box>
               <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", mb: 0.5, fontSize: "0.85rem" }}>Active Tasks</Typography>
-              <Typography variant="h3" fontWeight={700} sx={{ color: "#fff", mb: 1 }}>{stats.active > 0 ? stats.active : 12}</Typography>
+              <Typography variant="h3" fontWeight={700} sx={{ color: "#fff", mb: 1 }}>{stats.active}</Typography>
               <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.5)", display: 'flex', alignItems: 'center', gap: 0.5, fontSize: "0.75rem" }}>
-                <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', background: '#ef4444' }} />
-                {Math.min(3, stats.active > 0 ? stats.active : 3)} Tasks due soon
+                {stats.active > 0 ? (
+                  <>
+                    <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', background: '#ef4444' }} />
+                    {Math.min(3, stats.active)} Tasks due soon
+                  </>
+                ) : (
+                  <>
+                    <Box component="span" sx={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e' }} />
+                    All caught up!
+                  </>
+                )}
               </Typography>
             </Box>
             <Box sx={{ width: 44, height: 44, borderRadius: '12px', background: 'rgba(56,189,248,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#38bdf8' }}>
@@ -117,11 +126,11 @@ export default function OverviewCards({ uid = "Ankit", studentName, progressPerc
             <Box>
               <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)", mb: 0.5, fontSize: "0.85rem" }}>Daily Streak</Typography>
               <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 1, mb: 1 }}>
-                <Typography variant="h3" fontWeight={700} sx={{ color: "#fff" }}>{consistencyStreak > 0 ? consistencyStreak : 24}</Typography>
+                <Typography variant="h3" fontWeight={700} sx={{ color: "#fff" }}>{consistencyStreak}</Typography>
                 <Typography variant="h6" fontWeight={600} sx={{ color: "#fbbf24" }}>days</Typography>
               </Box>
               <Typography variant="caption" sx={{ color: "rgba(255,255,255,0.5)", fontSize: "0.75rem" }}>
-                Personal best: {Math.max(consistencyStreak, 28)} days
+                Current login streak
               </Typography>
             </Box>
             <Box sx={{ width: 44, height: 44, borderRadius: '12px', background: 'rgba(251,191,36,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fbbf24' }}>

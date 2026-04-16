@@ -45,8 +45,7 @@ export default function AnalyticsCharts({ consistencyData, stats, setFilter }) {
   }));
   
   const pieData = [
-    { name: 'To Do', value: Math.max(stats.active - 3, 0), color: '#38bdf8' },
-    { name: 'In Progress', value: Math.min(stats.active, 3), color: '#a855f7' },
+    { name: 'Active', value: stats.active, color: '#38bdf8' },
     { name: 'Completed', value: stats.completed, color: '#d946ef' }
   ];
 
