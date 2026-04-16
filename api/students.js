@@ -11,18 +11,34 @@ function send(res, status, payload) {
 module.exports = async (req, res) => {
   try {
     if (req.method === "GET") {
-      const { data, error } = await supabase.from('students').select('uid, name');
-      
-      if (error) {
-        if (error.code === 'PGRST205') return send(res, 200, {});
-        throw error;
-      }
-      
       const studentsMap = {};
-      if (data) {
-        data.forEach(row => {
-          studentsMap[row.uid] = row.name;
-        });
+      let hasMore = true;
+      let from = 0;
+      let size = 1000;
+
+      while (hasMore) {
+        const { data, error } = await supabase
+          .from('students')
+          .select('uid, name')
+          .range(from, from + size - 1);
+        
+        if (error) {
+          if (error.code === 'PGRST205') return send(res, 200, {});
+          throw error;
+        }
+
+        if (data && data.length > 0) {
+          data.forEach(row => {
+            studentsMap[row.uid] = row.name;
+          });
+          from += size;
+        } else {
+          hasMore = false;
+        }
+
+        if (data.length < size) {
+          hasMore = false;
+        }
       }
 
       return send(res, 200, studentsMap);
